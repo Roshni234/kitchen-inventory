@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock and Expiration Notifications</title>
+    <!-- Link to Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+        }
+
+        /* Teal Blue Background for Header */
+        .header {
+            background-color: #008080; /* Teal Blue */
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        /* Back Arrow */
+        .back-arrow {
+            position: absolute;
+            left: 30px;
+            top: 40px;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        /* Teal Blue Notification Bar */
+        .notification-bar {
+            padding: 10px;
+            background-color: #2c3e50; /* Teal Blue */
+            color: #fff;
+            text-align: center;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        /* Light Blue Button for New Notifications */
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #ADD8E6; /* Light Blue */
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .btn:hover {
+            background-color: #9ac1d1; /* Slightly darker light blue on hover */
+        }
+
+        .notifications-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .notifications-list li {
+            padding: 15px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .notifications-list li .date {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .notifications-list li .details {
+            color: #003366; /* Dark Blue for Details */
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .notifications-list li .details:hover {
+            color: #001a33; /* Darker blue on hover */
+        }
+
+        /* Notification Symbol */
+        .notification-icon {
+            font-size: 22px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        /* Alert Symbol */
+        .alert-icon {
+            color: #ffcc00; /* Yellow color for alert */
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <!-- Back Arrow on the Top Left -->
+        <a href="javascript:history.back()" class="back-arrow"><i class="fas fa-arrow-left"></i></a>
+        <h2><i class="fas fa-bell notification-icon"></i> Stock and Expiration Notifications</h2>
+    </div>
+
+    <div class="container">
+        <h1>Your Notifications</h1>
+
+        <!-- Notification Bar -->
+        <div id="notificationBar" class="notification-bar">
+            New stock or expiration notification received!
+        </div>
+
+        <!-- Light Blue Button to Trigger Notification -->
+        <button class="btn" onclick="triggerNotification()">Check for New Notifications</button>
+
+        <!-- List of Notifications -->
+        <ul class="notifications-list" id="notificationsList">
+            <!-- Example Notifications -->
+            <li>
+                <span>
+                    <i class="fas fa-exclamation-triangle alert-icon"></i> <!-- Alert Symbol -->
+                    <strong>Low Stock Alert</strong>
+                </span>
+                <a class="details" href="/view-details?item=milk">View</a>
+            </li>
+            <li>
+                <span>
+                    <i class="fas fa-exclamation-triangle alert-icon"></i> <!-- Alert Symbol -->
+                    <strong>Expiration Alert</strong>
+                </span>
+                <a class="details" href="/view-details?item=eggs">View</a>
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        function triggerNotification() {
+            // Simulate a new notification being received
+            var notificationBar = document.getElementById('notificationBar');
+            var notificationsList = document.getElementById('notificationsList');
+
+            // Display the notification bar
+            notificationBar.style.display = 'block';
+
+            // Hide the notification bar after 3 seconds
+            setTimeout(function() {
+                notificationBar.style.display = 'none';
+            }, 3000);
+
+            // Add a new notification to the list
+            var newNotification = document.createElement('li');
+            newNotification.innerHTML = `
+                <span>
+                    <i class="fas fa-exclamation-triangle alert-icon"></i> <!-- Alert Symbol -->
+                    <strong>Expiration Alert: Bread</strong>
+                </span>
+                <span class="date">${new Date().toLocaleString()}</span>
+                <a class="details" href="/view-details?item=bread">View</a>
+            `;
+            notificationsList.appendChild(newNotification);
+        }
+    </script>
+
+</body>
+</html>

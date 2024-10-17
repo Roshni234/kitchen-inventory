@@ -1,0 +1,72 @@
+0<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grocery Inventory Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color:#2c3e50 ;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            text-align: center;
+            padding: 50px;
+        }
+        .title {
+            font-size: 3em;
+            color: white;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            font-size: 1.5em;
+            color: #fefefe;
+        }
+        .image-container {
+            position: relative; /* This is crucial for positioning the button */
+            width: 300px; /* Fixed width for the image container */
+            height: 240px; /* Fixed height for the image container */
+            margin: 0px ; /* Center the image container */
+        }
+        .image-container img {
+            width: 400%; /* Image will stretch to fit the container */
+            height: 240%; /* Ensure it fills the container */
+            border-radius: 90px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .button-container {
+            position: relative; /* Position relative to the image container */
+            bottom: 70px; /* Position 20px from the bottom */
+            left: 5%; /* Center horizontally */
+            transform: translateX(80%); /* Adjust to truly center the button */
+        }
+        .get-started {
+            background-color: #000;
+            color: #fff;
+            border: 80px;
+            padding: 20px 40px;
+            font-size: 1.8em;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .get-started:hover {
+            background-color: #444;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        
+        <div class="image-container">
+            <img src="static\goo.jpg" alt="Grocery Inventory Image">
+            <div class="button-container">
+                <a href="/index2" class="get-started" style="text-decoration: none; color: white;">Get Started ></a>
+            </div>
+            
+        </div>
+    </div>
+</body>
+</html>

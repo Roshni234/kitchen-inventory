@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kitchen Inventory System</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            position: relative;
+        }
+        h1 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .options {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .options a {
+            margin: 0 15px;
+            text-decoration: none;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 5px;
+        }
+        .options a:hover {
+            background-color: #0056b3;
+        }
+        .upload-section {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        /* Back Arrow Styling */
+        .back-arrow {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            text-decoration: none;
+            color: black;
+        }
+        .back-arrow:hover {
+            color: #555555; /* Slightly lighter on hover */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Back Arrow -->
+    <a href="/index2" class="back-arrow">&#8592;</a>
+
+    <h1>Kitchen Inventory</h1>
+
+    <div class="upload-section">
+        <label for="upload">Upload Inventory Excel File: </label>
+        <input type="file" id="upload" accept=".xlsx, .xls">
+    </div>
+
+    <div class="options">
+        <a href="/index3">Stock Level</a>
+        <a href="/index4">Expiration</a>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Category</th>
+                <th>Purchase Date</th>
+                <th>Expiry Date</th>
+                <th>Quantity</th>
+                <th>Threshold</th>
+                <th>Supplier</th>
+                <th>Sales/Week</th>
+            </tr>
+        </thead>
+        <tbody id="inventory-table">
+            <!-- Data from the Excel file will be inserted here -->
+        </tbody>
+    </table>
+
+    <script>
+        document.getElementById('upload').addEventListener('change', handleFile);
+
+        function handleFile(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+                const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                const rows = XLSX.utils.sheet_to_json(firstSheet, { header: 1 });
+
+                const tableBody = document.getElementById('inventory-table');
+                tableBody.innerHTML = ''; // Clear existing rows
+
+                // Assuming the first row contains headers
+                rows.slice(1).forEach(row => {
+                    const purchaseDate = convertExcelDate(row[3]);
+                    const expiryDate = convertExcelDate(row[4]);
+
+                    const rowData = `<tr>
+                                        <td>${row[1]}</td>
+                                        <td>${row[2]}</td>
+                                        <td>${purchaseDate}</td>
+                                        <td>${expiryDate}</td>
+                                        <td>${row[5]}</td>
+                                        <td>${row[6]}</td>
+                                        <td>${row[7]}</td>
+                                        <td>${row[8]}</td>
+                                     </tr>`;
+                    tableBody.innerHTML += rowData;
+                });
+
+                // Clear the file input to allow re-upload
+                document.getElementById('upload').value = '';
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function convertExcelDate(serial) {
+            // Excel dates are stored as the number of days since 1900-01-01
+            const date = new Date(Math.round((serial - 25569) * 86400 * 1000));
+            return date.toISOString().split('T')[0];  // Convert to YYYY-MM-DD format
+        }
+    </script>
+
+</body>
+</html>
