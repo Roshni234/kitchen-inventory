@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Low Stock Alert</title>
+    <title>Expiration Alert</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,10 +12,20 @@
             background-color: #f7f7f7;
         }
         .header {
-            background-color: #008080; /* Teal Blue */
+            background-color: #34495e; /* Teal Blue */
             color: white;
             padding: 20px;
             text-align: center;
+            position: relative; /* Allow absolute positioning of elements within */
+        }
+        .back-arrow {
+            position: absolute;
+            top: 20px; /* Adjusts vertical position */
+            left: 20px; /* Adjusts horizontal position */
+            font-size: 24px;
+            margin-top:20px;
+            color: white;
+            text-decoration: none;
         }
         .container {
             max-width: 600px;
@@ -24,10 +34,12 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            height: 500px; /* Set the desired height here */
+            overflow-y: auto;
         }
         h1 {
             text-align: center;
-            color: #333;
+            color: #e8edf3; /* Teal Blue */
         }
         .back-button {
             display: block;
@@ -42,18 +54,35 @@
         .back-button:hover {
             background-color: #006666; /* Darker teal on hover */
         }
+        .no-alert {
+            text-align: center;
+            color: #888; /* Gray color for the no alerts message */
+        }
+        
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>Expiration Alert Details</h1>
+        <a href="{{ url_for('index6') }}" class="back-arrow">←</a>
+        <h1><i class="fas fa-bell"></i> Expiration Alert Details</h1>
     </div>
 
     <div class="container">
-      
-       
+        {% if notifications %}
+            {% for notification in notifications %}
+                <p>
+                    Alert: <strong>{{ notification['Item'] }}</strong> is expiring soon!<br>
+                    Expiry Date: {{ notification['Expiry_date'] }}, 
+                    Days to Expiry: {{ notification['Days_to_Expiry'] }}
+                </p>
+                <hr> <!-- Adds a line break between each notification -->
+            {% endfor %}
+        {% else %}
+            <p class="no-alert">No items are expiring soon.</p>
+        {% endif %}
     </div>
-
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
 </body>
 </html>

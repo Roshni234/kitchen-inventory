@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Low Stock Alert</title>
+    <title>Low Stock Notifications &#128276;</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,49 +11,83 @@
             padding: 0;
             background-color: #f7f7f7;
         }
+
         .header {
-            background-color: #008080; /* Teal Blue */
+            background-color: #34495e; /* Teal Blue */
             color: white;
             padding: 20px;
-            text-align: center;
+            position: relative;
         }
+
+        .back-arrow {
+            position: absolute;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            font-size: 24px;
+            color: white;
+            text-decoration: none;
+        }
+
         .container {
-            max-width: 600px;
+            max-width: 800px;
             margin: 20px auto;
             background-color: #fff;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            height: 500px; /* Set the desired height here */
+            overflow-y: auto;
         }
+
         h1 {
             text-align: center;
+            color: white;
+        }
+
+        .notification-list p {
+            margin-bottom: 10px;
+            font-size: 16px;
             color: #333;
         }
-        .back-button {
-            display: block;
-            margin: 20px auto;
-            padding: 10px;
-            background-color: #008080; /* Teal Blue */
-            color: white;
-            text-align: center;
-            border-radius: 5px;
-            text-decoration: none;
+
+        .notification-list strong {
+            color: #e74c3c; /* Red color for warning */
         }
-        .back-button:hover {
-            background-color: #006666; /* Darker teal on hover */
+
+        hr {
+            border: none;
+            border-top: 1px solid #ccc; /* Light gray for a mild line */
+            margin: 15px 0;
         }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>Low Stock Alert Notification</h1>
+        <a href="{{ url_for('index6') }}" class="back-arrow">←</a>
+        <h1><i class="fas fa-bell"></i> Low Stock Notifications</h1>
     </div>
 
     <div class="container">
-      
-       
+        <div class="notification-list">
+            {% if notifications %}
+                {% for notification in notifications %}
+                    {% if notification %}
+                    <strong>{{ notification['Item'] }}</strong> is running low.<br>
+                    Placing an order with <strong>{{ notification['Supplier'] }}</strong> for more {{ notification['Item'] }}.
+                        <hr> <!-- Adds a mild line between each notification -->
+                    {% else %}
+                        <p>All items are sufficiently stocked.</p>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <p>No low stock items found.</p>
+            {% endif %}
+        </div>
     </div>
 
+    <!-- Include Font Awesome for the bell icon -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
 </body>
 </html>

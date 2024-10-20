@@ -16,22 +16,106 @@
 
         /* Teal Blue Background for Header */
         .header {
-            background-color: #008080; /* Teal Blue */
+            background-color: #34495e; /* Teal Blue */
             color: white;
             padding: 20px;
             text-align: center;
             position: relative;
         }
-
-        /* Back Arrow */
-        .back-arrow {
-            position: absolute;
-            left: 30px;
-            top: 40px;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
+        .sidebar {
+            background-color: #34495e;
+            padding: 0px;
+            width: 250px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+            transition: left 0.3s ease;
+            height: 100vh;
+            position: fixed; /* Changed to fixed to keep it in place */
+            top: 0;
+            left: -250px;
+            padding-top: 60px;
+            z-index: 2;
+            overflow-y: auto; /* Enables scrolling within sidebar */
         }
+
+        .sidebar.show {
+            left: 0;
+        }
+        .menu-item {
+            background-color: #2c3e50;
+            color: #fff;
+            border: none;
+            padding: 15px 20px; /* Adjusted padding for icon-text spacing */
+            text-align: left;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 10px;
+            display: flex;
+            gap:10px;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .menu-item i {
+            margin-right: 12px; /* Ensures consistent space between icon and text */
+            font-size: 20px;
+        }
+
+        .menu-item:hover {
+            background-color: #3b3636;
+        }
+
+        /* Main content area */
+        .main-content {
+            flex: 1;
+            padding: 100px 20px;
+            margin-left: 250px;
+            background-color: #ececec;
+            z-index: 0;
+            overflow-y: auto; /* Allows scrolling within the main content */
+        }.data-section {
+            margin-top: 20px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .data-section h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #34495e;
+        }
+
+        .data-section img {
+            display: block;
+            margin: 20px auto;
+            max-width: 100%;
+        }
+
+        /* Toggle button styling */
+        .toggle-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: #34495e;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 24px;
+            z-index: 3;
+            transition: background-color 0.3s ease;
+        }
+
+        .toggle-button:hover {
+            background-color: #3b3636;
+        }
+
+
 
         .container {
             max-width: 600px;
@@ -50,30 +134,12 @@
         /* Teal Blue Notification Bar */
         .notification-bar {
             padding: 10px;
-            background-color: #2c3e50; /* Teal Blue */
+            background-color: #2c3e50;
             color: #fff;
             text-align: center;
             border-radius: 5px;
             margin-bottom: 20px;
             display: none;
-        }
-
-        /* Light Blue Button for New Notifications */
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            background-color: #ADD8E6; /* Light Blue */
-            color: black;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-bottom: 10px;
-        }
-
-        .btn:hover {
-            background-color: #9ac1d1; /* Slightly darker light blue on hover */
         }
 
         .notifications-list {
@@ -116,76 +182,73 @@
 
         /* Alert Symbol */
         .alert-icon {
-            color: #ffcc00; /* Yellow color for alert */
-            margin-right: 5px;
+            color:#EEDC5B; /* Yellow for the alert icon */
         }
+        
     </style>
 </head>
 <body>
+    <div class="sidebar" id="sidebar">
+        <a href="{{ url_for('index2') }}" class="menu-item"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="{{ url_for('index3') }}" class="menu-item"><i class="fas fa-box-open"></i> Product</a>
+        <a href="{{ url_for('index4') }}" class="menu-item"><i class="fas fa-warehouse"></i> Stock</a>
+        <a href="{{ url_for('index5') }}" class="menu-item"><i class="fas fa-calendar-times"></i> Expiry</a>
+        <a href="{{ url_for('index6') }}" class="menu-item"><i class="fas fa-bell"></i> Notification</a>
+    </div>
+
 
     <div class="header">
-        <!-- Back Arrow on the Top Left -->
-        <a href="javascript:history.back()" class="back-arrow"><i class="fas fa-arrow-left"></i></a>
+       
         <h2><i class="fas fa-bell notification-icon"></i> Stock and Expiration Notifications</h2>
     </div>
 
     <div class="container">
         <h1>Your Notifications</h1>
 
-        <!-- Notification Bar -->
-        <div id="notificationBar" class="notification-bar">
-            New stock or expiration notification received!
-        </div>
-
-        <!-- Light Blue Button to Trigger Notification -->
-        <button class="btn" onclick="triggerNotification()">Check for New Notifications</button>
-
         <!-- List of Notifications -->
         <ul class="notifications-list" id="notificationsList">
-            <!-- Example Notifications -->
+            <!-- Low Stock Alert Notification -->
             <li>
                 <span>
                     <i class="fas fa-exclamation-triangle alert-icon"></i> <!-- Alert Symbol -->
                     <strong>Low Stock Alert</strong>
                 </span>
-                <a class="details" href="/view-details?item=milk">View</a>
+                
+                <a href="{{ url_for('index7') }}">View</a><!-- Link to index7.html -->
             </li>
+
+            <!-- Expiration Alert Notification -->
             <li>
                 <span>
                     <i class="fas fa-exclamation-triangle alert-icon"></i> <!-- Alert Symbol -->
                     <strong>Expiration Alert</strong>
                 </span>
-                <a class="details" href="/view-details?item=eggs">View</a>
+               
+                <a href="{{ url_for('index8') }}">View</a>
             </li>
         </ul>
+
     </div>
-
+    <button class="toggle-button" id="toggleBtn">☰</button>
     <script>
-        function triggerNotification() {
-            // Simulate a new notification being received
-            var notificationBar = document.getElementById('notificationBar');
-            var notificationsList = document.getElementById('notificationsList');
+        const sidebar = document.getElementById('sidebar');
+        const toggleBtn = document.getElementById('toggleBtn');
 
-            // Display the notification bar
-            notificationBar.style.display = 'block';
+        toggleBtn.addEventListener('mouseover', () => {
+            sidebar.classList.add('show');
+        });
 
-            // Hide the notification bar after 3 seconds
-            setTimeout(function() {
-                notificationBar.style.display = 'none';
-            }, 3000);
+        toggleBtn.addEventListener('mouseout', () => {
+            sidebar.classList.remove('show');
+        });
 
-            // Add a new notification to the list
-            var newNotification = document.createElement('li');
-            newNotification.innerHTML = `
-                <span>
-                    <i class="fas fa-exclamation-triangle alert-icon"></i> <!-- Alert Symbol -->
-                    <strong>Expiration Alert: Bread</strong>
-                </span>
-                <span class="date">${new Date().toLocaleString()}</span>
-                <a class="details" href="/view-details?item=bread">View</a>
-            `;
-            notificationsList.appendChild(newNotification);
-        }
+        sidebar.addEventListener('mouseover', () => {
+            sidebar.classList.add('show');
+        });
+
+        sidebar.addEventListener('mouseout', () => {
+            sidebar.classList.remove('show');
+        });
     </script>
 
 </body>
